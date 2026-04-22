@@ -178,16 +178,15 @@ if __name__ == '__main__':
     # Удаляем несущественые для кластеризации столбцы
     dataset.drop(['Code'], axis=1, inplace=True)
 
-    feature_cols = list(dataset.columns)
-    print(dataset.shape)
-    print(dataset.head(5))
-
-
-    one_hot_cols = ['col_name1', 'col_name2', 'col_name3']
+    one_hot_cols = ['Time_of_Day', 'Day_of_Week', 'Traffic_Conditions', 'Weather']
     for col_name in one_hot_cols:
         one_hot = pd.get_dummies(dataset[col_name])
         dataset = dataset.drop(col_name, axis=1)
         dataset = dataset.join(one_hot)
+
+    feature_cols = list(dataset.columns)
+    print(dataset.shape)
+    print(dataset.head(5))
 
 
     for col_name in feature_cols:
@@ -204,7 +203,8 @@ if __name__ == '__main__':
     # get_som_with_color_data(test_color_data, map_width=30, map_height=30, max_iter=1000, input_size=3)
 
     # Запускаем кластеризацию и возвращаем номера кластеров для набора данных
-    cindexes = get_som(in_data, map_width=10, map_height=10, max_iter=1000, input_size=13)
+    cindexes = get_som(in_data, map_width=8, map_height=8, max_iter=1000, input_size=19)
+    cindexes = get_som(in_data, map_width=5, map_height=5, max_iter=1000, input_size=19)
 
     dataset['Code'] = labels  # добавляем сохраненную ранее информационную колонку (если необходимо)
     # Добавляем номера кластеров в отдельную колонку набора данных
