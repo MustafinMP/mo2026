@@ -168,7 +168,7 @@ if __name__ == '__main__':
     # Режим выполнения вычислений v1
     tf.compat.v1.disable_eager_execution()
 
-    dataset = pd.read_csv("wine-clustering.csv", sep=',', header='infer', names=None, encoding="utf-8")
+    dataset = pd.read_csv("taxi_trip_pricing.csv", sep=',', header='infer', names=None, encoding="utf-8")
     dataset['Code'] = range(1, len(dataset) + 1)
     pd.set_option("display.max_rows", None, "display.max_columns", None)
 
@@ -182,14 +182,13 @@ if __name__ == '__main__':
     print(dataset.shape)
     print(dataset.head(5))
 
-    # Выбираем признаки для one-hot кодирования
-    """
+
     one_hot_cols = ['col_name1', 'col_name2', 'col_name3']
     for col_name in one_hot_cols:
         one_hot = pd.get_dummies(dataset[col_name])
         dataset = dataset.drop(col_name, axis=1)
         dataset = dataset.join(one_hot)
-    """
+
 
     for col_name in feature_cols:
         removed = dataset.drop(dataset.loc[dataset[col_name].isna(), [col_name]].index, inplace=True)
@@ -205,7 +204,7 @@ if __name__ == '__main__':
     # get_som_with_color_data(test_color_data, map_width=30, map_height=30, max_iter=1000, input_size=3)
 
     # Запускаем кластеризацию и возвращаем номера кластеров для набора данных
-    cindexes = get_som(in_data, map_width=9, map_height=9, max_iter=1000, input_size=13)
+    cindexes = get_som(in_data, map_width=10, map_height=10, max_iter=1000, input_size=13)
 
     dataset['Code'] = labels  # добавляем сохраненную ранее информационную колонку (если необходимо)
     # Добавляем номера кластеров в отдельную колонку набора данных
